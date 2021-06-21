@@ -2,8 +2,9 @@ package com.example.vfms;
 
 import android.os.AsyncTask;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,9 +22,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String type = params[0];
         if (type.equals("login")) {
             try {
-                String host = "47.119.141.11";
-                int port = 10000;
-                Socket socket = new Socket(host, port);
+                Socket socket = new Socket("47.119.141.11", 10000);
                 OutputStream outputStream = socket.getOutputStream();
                 Writer writer = new OutputStreamWriter(outputStream);
                 String username = params[1];
@@ -40,8 +39,15 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 socket.shutdownOutput();
                 InputStream inputStream= socket.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                return bufferedReader.readLine();
-            } catch (IOException | JSONException e) {
+                String rep = bufferedReader.readLine();
+                JSONParser jsonParser = new JSONParser();
+                JSONObject repJSON = (JSONObject) jsonParser.parse(rep);
+                String function = (String) repJSON.get("function");
+                if (function.equals("login-rep")) {
+                    int res = (int) repJSON.get("content");
+                    return Integer.toString(res);
+                }
+            } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
         }
