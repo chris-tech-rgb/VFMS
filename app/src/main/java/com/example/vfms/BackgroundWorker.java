@@ -45,8 +45,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 String function = (String) repJSON.get("function");
                 if (function.equals("login-rep")) {
                     int res = (int) repJSON.get("content");
+                    socket.close();
                     return Integer.toString(res);
-                }
+                } else socket.close();
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
