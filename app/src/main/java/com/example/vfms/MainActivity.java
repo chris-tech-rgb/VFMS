@@ -97,17 +97,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    TextView username = findViewById(R.id.display_name);
-                    TextView connectionStatus = findViewById(R.id.display_status);
-                    String loginUsername = data.getStringExtra(String.valueOf(R.string.login_string));
-                    username.setText(loginUsername);
-                    connectionStatus.setText(R.string.nav_header_subtitle_online);
-                }
-                break;
-            default:
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                TextView username = findViewById(R.id.display_name);
+                TextView connectionStatus = findViewById(R.id.display_status);
+                assert data != null;
+                String loginUsername = data.getStringExtra(String.valueOf(R.string.login_string));
+                username.setText(loginUsername);
+                connectionStatus.setText(R.string.nav_header_subtitle_online);
+            }
         }
     }
 

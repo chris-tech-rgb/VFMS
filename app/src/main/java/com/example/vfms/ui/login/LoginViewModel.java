@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 import android.util.Patterns;
 
 import com.example.vfms.CEncryption;
-import com.example.vfms.MD5;
 import com.example.vfms.data.LoginRepository;
 import com.example.vfms.data.Result;
 import com.example.vfms.data.model.LoggedInUser;
