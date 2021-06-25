@@ -1,6 +1,7 @@
 package com.example.vfms;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,6 +46,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 String function = (String) repJSON.get("function");
                 if (function.equals("login-rep")) {
                     int res = (int) repJSON.get("content");
+                    Log.d("aaaaaaaaaaaaaaa", String.valueOf(res));
                     socket.close();
                     return Integer.toString(res);
                 } else socket.close();
