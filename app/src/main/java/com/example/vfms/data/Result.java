@@ -1,17 +1,21 @@
 package com.example.vfms.data;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A generic class that holds a result success w/ data or an error exception.
  */
+@SuppressWarnings("unused")
 public class Result<T> {
     // hide the private constructor to limit subclass types (Success, Error)
     private Result() {
     }
 
+    @NotNull
     @Override
     public String toString() {
         if (this instanceof Result.Success) {
-            Result.Success success = (Result.Success) this;
+            @SuppressWarnings("rawtypes") Result.Success success = (Result.Success) this;
             return "Success[data=" + success.getData().toString() + "]";
         } else if (this instanceof Result.Error) {
             Result.Error error = (Result.Error) this;
@@ -21,7 +25,9 @@ public class Result<T> {
     }
 
     // Success sub-class
+    @SuppressWarnings("rawtypes")
     public final static class Success<T> extends Result {
+        @SuppressWarnings("FieldMayBeFinal")
         private T data;
 
         public Success(T data) {
@@ -34,7 +40,9 @@ public class Result<T> {
     }
 
     // Error sub-class
+    @SuppressWarnings("rawtypes")
     public final static class Error extends Result {
+        @SuppressWarnings("FieldMayBeFinal")
         private Exception error;
 
         public Error(Exception error) {
@@ -47,7 +55,9 @@ public class Result<T> {
     }
 
     //Fail sub-class
+    @SuppressWarnings("rawtypes")
     public final static class Fail extends Result {
+        @SuppressWarnings("FieldMayBeFinal")
         private int code;
 
         public Fail(int code) {

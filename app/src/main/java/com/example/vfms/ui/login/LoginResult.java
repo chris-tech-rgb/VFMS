@@ -10,13 +10,13 @@ class LoginResult {
     private LoggedInUserView success;
     @Nullable
     private Integer error;
-    @Nullable
     private int fail = 0;
 
-    LoginResult(@Nullable int fail) {
+    LoginResult(int fail) {
         this.fail = fail;
     }
 
+    @SuppressWarnings("unused")
     LoginResult(@Nullable Integer error) {
         this.error = error;
     }
@@ -35,7 +35,6 @@ class LoginResult {
         return error;
     }
 
-    @Nullable
     int getFail() {
         return fail;
     }

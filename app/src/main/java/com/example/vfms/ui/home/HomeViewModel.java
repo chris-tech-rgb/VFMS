@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class HomeViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private final MutableLiveData<String> mText;
 
     public HomeViewModel() {
         mText = new MutableLiveData<>();

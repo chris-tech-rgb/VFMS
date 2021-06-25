@@ -14,8 +14,11 @@ import com.example.vfms.R;
 
 public class LoginViewModel extends ViewModel {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
+    @SuppressWarnings("FieldMayBeFinal")
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    @SuppressWarnings("FieldMayBeFinal")
     private LoginRepository loginRepository;
 
     LoginViewModel(LoginRepository loginRepository) {
@@ -26,6 +29,7 @@ public class LoginViewModel extends ViewModel {
         return loginFormState;
     }
 
+    @SuppressWarnings("unused")
     MutableLiveData<LoginFormState> getLoginFormStateStatic() {
         return loginFormState;
     }

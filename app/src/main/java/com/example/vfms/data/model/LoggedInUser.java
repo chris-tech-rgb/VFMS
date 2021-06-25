@@ -5,6 +5,7 @@ package com.example.vfms.data.model;
  */
 public class LoggedInUser {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private String userId;
     private String displayName;
 
@@ -13,6 +14,7 @@ public class LoggedInUser {
         this.displayName = displayName;
     }
 
+    @SuppressWarnings("unused")
     public String getUserId() {
         return userId;
     }

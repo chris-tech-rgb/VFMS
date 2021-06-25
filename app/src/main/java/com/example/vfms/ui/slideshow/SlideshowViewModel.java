@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 public class SlideshowViewModel extends ViewModel {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private MutableLiveData<String> mText;
 
     public SlideshowViewModel() {

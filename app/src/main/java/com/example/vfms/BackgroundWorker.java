@@ -1,7 +1,6 @@
 package com.example.vfms;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,6 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.Socket;
 
+@SuppressWarnings({"ConstantConditions", "unchecked", "deprecation"})
 public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     @Override
@@ -44,6 +44,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 JSONParser jsonParser = new JSONParser();
                 JSONObject repJSON = (JSONObject) jsonParser.parse(rep);
                 String function = (String) repJSON.get("function");
+                assert function != null;
                 if (function.equals("login-rep")) {
                     long res = (long) repJSON.get("content");
                     socket.close();

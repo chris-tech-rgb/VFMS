@@ -10,6 +10,7 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public Result<LoggedInUser> login(String username, String password) {
 
         try {

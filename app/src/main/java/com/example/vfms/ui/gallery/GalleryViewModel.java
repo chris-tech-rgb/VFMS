@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 public class GalleryViewModel extends ViewModel {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private MutableLiveData<String> mText;
 
     public GalleryViewModel() {

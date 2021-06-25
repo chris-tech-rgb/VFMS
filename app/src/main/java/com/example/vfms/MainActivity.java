@@ -38,16 +38,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isConnected()) {
-                    Snackbar.make(view, R.string.mailbox_text, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                } else {
-                    Snackbar.make(view, R.string.not_connected, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
+        fab.setOnClickListener(view -> {
+            if (isConnected()) {
+                Snackbar.make(view, R.string.mailbox_text, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            } else {
+                Snackbar.make(view, R.string.not_connected, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

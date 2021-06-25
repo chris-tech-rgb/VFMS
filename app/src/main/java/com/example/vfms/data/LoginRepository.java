@@ -10,6 +10,7 @@ public class LoginRepository {
 
     private static volatile LoginRepository instance;
 
+    @SuppressWarnings("FieldMayBeFinal")
     private LoginDataSource dataSource;
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
@@ -28,6 +29,7 @@ public class LoginRepository {
         return instance;
     }
 
+    @SuppressWarnings("unused")
     public boolean isLoggedIn() {
         return user != null;
     }
