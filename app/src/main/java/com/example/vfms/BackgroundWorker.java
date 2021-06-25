@@ -45,10 +45,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 JSONObject repJSON = (JSONObject) jsonParser.parse(rep);
                 String function = (String) repJSON.get("function");
                 if (function.equals("login-rep")) {
-                    int res = (int) repJSON.get("content");
-                    Log.d("aaaaaaaaaaaaaaa", String.valueOf(res));
+                    long res = (long) repJSON.get("content");
                     socket.close();
-                    return Integer.toString(res);
+                    return Long.toString(res);
                 } else socket.close();
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
