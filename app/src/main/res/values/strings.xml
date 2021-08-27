@@ -29,6 +29,10 @@
     <string name="current_username">当前用户</string>
     <string name="current_password">当前密码</string>
 
+    <string name="title_activity_settings">设置</string>
+    <string name="settings_password">更新密码</string>
+    <string name="settings_email">电子邮箱</string>
+
     <string name="login_string">login_username</string>
     <string name="preference_string">com.example.vfms</string>
 </resources>
