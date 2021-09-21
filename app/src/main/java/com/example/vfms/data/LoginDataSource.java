@@ -17,8 +17,7 @@ public class LoginDataSource {
             // TODO: handle loggedInUser authentication
             String type = "login";
             BackgroundWorker backgroundWorker = new BackgroundWorker();
-            String output;
-            output = backgroundWorker.execute(type, username, password).get();
+            String output = backgroundWorker.execute(type, username, password).get();
             if (output.equals("0") || output.equals("1")) {
                 LoggedInUser user = new LoggedInUser(username, emailStrip(username));
                 return new Result.Success<>(user);

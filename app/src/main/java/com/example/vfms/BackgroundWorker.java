@@ -14,6 +14,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @SuppressWarnings({"ConstantConditions", "unchecked", "deprecation"})
 public class BackgroundWorker extends AsyncTask<String, Void, String> {
@@ -33,7 +35,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 content.put("username", username);
                 content.put("password", password);
                 loginJSON.put("function", "login");
-                loginJSON.put("timestamp", java.util.Calendar.getInstance().getTime().toString());
+                loginJSON.put("timestamp", timestamp());
                 loginJSON.put("content", content);
                 writer.write(loginJSON.toString());
                 writer.flush();
@@ -53,6 +55,33 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
+        } else if (type.equals("list")) {
+            try {
+                Socket socket = new Socket("47.119.141.11", 10000);
+                OutputStream outputStream = socket.getOutputStream();
+                Writer writer = new OutputStreamWriter(outputStream);
+                JSONObject listJSON = new JSONObject();
+                listJSON.put("function", "list");
+                listJSON.put("timestamp", timestamp());
+                listJSON.put("content", null);
+                writer.write(listJSON.toString());
+                writer.flush();
+                socket.shutdownOutput();
+                InputStream inputStream= socket.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String rep = bufferedReader.readLine();
+                JSONParser jsonParser = new JSONParser();
+                JSONObject repJSON = (JSONObject) jsonParser.parse(rep);
+                String function = (String) repJSON.get("function");
+                assert function != null;
+                if (function.equals("list-rep")) {
+                    String res = (String) repJSON.get("content");
+                    socket.close();
+                    return res;
+                } else socket.close();
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
@@ -68,6 +97,12 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
+    }
+
+    static String timestamp() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
     }
 }
 
