@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/textDarkMode"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.settings.SettingsActivity"
-    >
+    tools:context=".ui.settings.SettingsActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonUpdatePassword"
         style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
         android:layout_width="412dp"
         android:layout_height="56dp"
@@ -20,17 +20,17 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textUpdatePassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings_password"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toTopOf="@+id/button" />
+        app:layout_constraintBottom_toBottomOf="@+id/buttonUpdatePassword"
+        app:layout_constraintEnd_toEndOf="@+id/buttonUpdatePassword"
+        app:layout_constraintStart_toStartOf="@+id/buttonUpdatePassword"
+        app:layout_constraintTop_toTopOf="@+id/buttonUpdatePassword" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonMail"
         style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
         android:layout_width="412dp"
         android:layout_height="56dp"
@@ -38,17 +38,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textUpdatePassword"
         app:layout_constraintVertical_bias="0.029" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings_email"
-        app:layout_constraintBottom_toBottomOf="@+id/button2"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonMail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonUpdatePassword" />
+
+    <Button
+        android:id="@+id/buttonDarkMode"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="412dp"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMail"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dark_mode"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonDarkMode"
+        app:layout_constraintEnd_toEndOf="@+id/buttonDarkMode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

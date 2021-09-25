@@ -12,7 +12,7 @@
     <string name="menu_home">主页</string>
     <string name="menu_gallery">浏览</string>
     <string name="menu_slideshow">通知</string>
-    <string name="mailbox_text">"待开发"</string>
+    <string name="mailbox_text">待开发</string>
     <string name="title_activity_login">登录/注册</string>
     <string name="prompt_email">邮箱</string>
     <string name="prompt_password">密码</string>
@@ -28,6 +28,7 @@
 
     <string name="current_username">当前用户</string>
     <string name="current_password">当前密码</string>
+    <string name="current_mode">当前模式</string>
 
     <string name="title_activity_settings">设置</string>
     <string name="settings_password">更新密码</string>
@@ -35,4 +36,26 @@
 
     <string name="login_string">login_username</string>
     <string name="preference_string">com.example.vfms</string>
+    <string name="quote0">华而不实是苏联最大的特色。——约瑟夫·斯大林</string>
+    <string name="quote1">德国新的豹式和虎式坦克可以被使用到它们自己抛锚为止，不要尝试修复。它们的引擎、传动和悬挂都很烂。——红军军械部</string>
+    <string name="quote2">德国军队的一击和苏联军队的另一击给这个凡尔赛的丑陋产物带去了终结。——维亚切斯拉夫·莫洛托夫</string>
+    <string name="quote3">没有一架敌人的轰炸机能到达鲁尔。如果有一架到了鲁尔，我的名字就不叫戈林。你可以叫我迈耶。——赫尔曼·迈耶</string>
+    <string name="quote4">经验表明，一个足够坚定的人使用近战武器攻击坦克基本上总能成功。——德国陆军中央集团军群反坦克手册</string>
+    <string name="quote5">在这里，两个德国参谋本部的工作人员，在谈论怎么谋杀我们的最高指挥官。这难道不可怕吗？——华尔奇丽亚行动指挥官，亨宁·冯·特里斯科夫</string>
+    <string name="quote6">我相信和平已经到来。——英国首相内维尔·张伯伦，1938年，慕尼黑协定后</string>
+    <string name="quote7">对民主最好的辩驳就是和一个普通选民交谈5分钟。——温斯顿·丘吉尔</string>
+    <string name="quote8">感谢上帝还有法国军队。——温斯顿·丘吉尔，1933年</string>
+    <string name="quote9">英国舰队普遍想看看意大利人是否达到了他们在上一次战争中的水平，还是说他们彻底堕落了。——温斯顿·丘吉尔</string>
+    <string name="quote10">胜利的果实来的太快了。——昭和天皇</string>
+    <string name="quote11">今天是我们，明天轮到你。——埃塞俄比亚皇帝，海尔·塞拉西一世，1936年</string>
+    <string name="quote12">我第一次看到喷气机的时候，我把它打下来了。——查克·叶格，美国陆军航空兵</string>
+    <string name="quote13">这场战争中有些虚假的东西。——美国参议员威廉·波拉，1939年</string>
+    <string name="quote14">我们被击败了，我们被痛打了，我们输掉了这场战斗。——保罗·雷诺，1940年5月15日</string>
+    <string name="quote15">我觉得我们可能多过了一座桥。——弗里德里克·勃朗宁（市场花园行动前）</string>
+    <string name="quote16">瑞士有着最令人作呕和卑鄙的人民和政治体系。瑞士人是新德国不共戴天的敌人。——阿道夫·希特勒</string>
+    <string name="quote17">战况发展到了对日本不一定有利的局面。——昭和天皇，1945年</string>
+    <string name="server_failure">服务器故障</string>
+    <string name="dark_mode">夜间模式</string>
+    <string name="date_string">日期</string>
+    <string name="title_activity_statistics">统计</string>
 </resources>

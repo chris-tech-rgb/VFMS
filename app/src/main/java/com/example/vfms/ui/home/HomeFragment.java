@@ -1,9 +1,11 @@
 package com.example.vfms.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.vfms.R;
+import com.example.vfms.ui.statistics.StatisticsActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -20,6 +23,15 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        CalendarView calendarView = (CalendarView) root.findViewById(R.id.calendarView);
+        calendarView.setOnDateChangeListener((calendarView1, i, i1, i2) -> {
+            String date = i+ "/" + (i1 + 1) + "/" + i2;
+            Intent intent = new Intent(getActivity(), StatisticsActivity.class);
+            intent.putExtra(String.valueOf(R.string.date_string), date);
+            startActivity(intent);
+        });
+
         return root;
     }
 }

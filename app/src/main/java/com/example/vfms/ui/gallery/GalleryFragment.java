@@ -1,7 +1,6 @@
 package com.example.vfms.ui.gallery;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vfms.BackgroundWorker;
 import com.example.vfms.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,12 +35,15 @@ public class GalleryFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
         galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
         recyclerView = root.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         placeArrayList = new ArrayList<>();
         try {
-            setPlaceInfo();
+            if (!setPlaceInfo()) {
+                //noinspection ConstantConditions
+                Snackbar.make(getActivity().findViewById(R.id.fab), R.string.server_failure, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
         } catch (ExecutionException | InterruptedException | ParseException e) {
             e.printStackTrace();
         }
@@ -58,19 +61,19 @@ public class GalleryFragment extends Fragment {
     }
 
     @SuppressWarnings("ConstantConditions")
-    private void setPlaceInfo() throws ExecutionException, InterruptedException, ParseException {
+    private boolean setPlaceInfo() throws ExecutionException, InterruptedException, ParseException {
         String type = "list";
         BackgroundWorker backgroundWorker = new BackgroundWorker();
         String output = backgroundWorker.execute(type, type, type).get();
+        if (output == null) return false;
         JSONParser jsonParser = new JSONParser();
         JSONObject outputJSON = (JSONObject) jsonParser.parse(output);
         long row = (long) outputJSON.get("number");
         JSONObject name_list = (JSONObject) jsonParser.parse((String) outputJSON.get("name_list"));
         JSONObject flow_list = (JSONObject) jsonParser.parse((String) outputJSON.get("flow_list"));
-        Log.d("name_list", name_list.toString());
-        Log.d("flow_list", flow_list.toString());
         for (int i = 0; i < row; i++) {
             placeArrayList.add(new Place((String) name_list.get(Integer.toString(i)), "人气 " + (long) flow_list.get((String) name_list.get(Integer.toString(i)))));
         }
+        return true;
     }
 }

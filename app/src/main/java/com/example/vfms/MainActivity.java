@@ -6,31 +6,36 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
 import android.widget.TextView;
 
-import com.example.vfms.ui.login.LoginActivity;
-import com.example.vfms.ui.settings.SettingsActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import com.example.vfms.ui.login.LoginActivity;
+import com.example.vfms.ui.settings.SettingsActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPreferences sharedPreferences;
-    public boolean isLogged = false;
+    public boolean isOnline = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
             if (isConnected()) {
-                Snackbar.make(view, R.string.mailbox_text, Snackbar.LENGTH_LONG)
+                List<Integer> quotes = loadQuotes();
+                Random rand = new Random();
+                Integer random = quotes.get(rand.nextInt(quotes.size()));
+                Snackbar.make(view, random, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             } else {
                 Snackbar.make(view, R.string.not_connected, Snackbar.LENGTH_LONG)
@@ -60,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        AppCompatDelegate.setDefaultNightMode(sharedPreferences.getInt(String.valueOf(R.string.current_mode), AppCompatDelegate.MODE_NIGHT_NO));
+    }
+
+    private List<Integer> loadQuotes() {
+        return Arrays.asList(R.string.quote0, R.string.quote1, R.string.quote2, R.string.quote3, R.string.quote4, R.string.quote5, R.string.quote6, R.string.quote7, R.string.quote8, R.string.quote9, R.string.quote10, R.string.quote11, R.string.quote12, R.string.quote13, R.string.quote14, R.string.quote15, R.string.quote16, R.string.quote17);
     }
 
     @Override
@@ -70,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null) {
             TextView username = findViewById(R.id.display_name);
             TextView status = findViewById(R.id.display_status);
-            username.setText(currentUser);
+            if (!(username == null)) username.setText(currentUser);
             if (isConnected()) {
-                status.setText(R.string.nav_header_subtitle_online);
+                if (!(status == null)) status.setText(R.string.nav_header_subtitle_online);
+                isOnline = true;
             } else {
-                status.setText(R.string.nav_header_subtitle_offline);
+                if (!(status == null)) status.setText(R.string.nav_header_subtitle_offline);
+                isOnline = false;
             }
-            isLogged = true;
         }
         return true;
     }
