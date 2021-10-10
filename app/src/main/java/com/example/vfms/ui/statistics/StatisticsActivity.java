@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.vfms.BackgroundWorker;
 import com.example.vfms.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -15,7 +16,13 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -37,9 +44,11 @@ public class StatisticsActivity extends AppCompatActivity {
 
         constant.add(new Entry(0, 0));
         constant.add(new Entry(23, 0));
-        peak.add(new Entry(10, 10));
-        peak.add(new Entry(12, 15));
-        peak.add(new Entry(13, 9));
+        try {
+            setPeak(peak, "1", date);
+        } catch (ExecutionException | InterruptedException | ParseException e) {
+            e.printStackTrace();
+        }
 
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
@@ -61,5 +70,22 @@ public class StatisticsActivity extends AppCompatActivity {
         Description des = new Description();
         des.setText(getString(R.string.chart_label));
         lineChart.setDescription(des);
+    }
+
+    private void setPeak(ArrayList<Entry> peak, @SuppressWarnings("SameParameterValue") String id, String date) throws ExecutionException, InterruptedException, ParseException {
+        String type = "chart";
+        BackgroundWorker backgroundWorker = new BackgroundWorker();
+        String output = backgroundWorker.execute(type, id, date).get();
+        JSONParser jsonParser = new JSONParser();
+        JSONObject outputJSON = (JSONObject) jsonParser.parse(output);
+        @SuppressWarnings("ConstantConditions") long count = (long) outputJSON.get("count");
+        JSONObject list = (JSONObject) outputJSON.get("list");
+        JSONObject value = (JSONObject) outputJSON.get("value");
+        for (int i = 0; i < count; i++) {
+            assert list != null;
+            assert value != null;
+            //noinspection SingleStatementInBlock
+            peak.add(new Entry(Float.parseFloat((String) Objects.requireNonNull(list.get(Integer.toString(i)))), Float.parseFloat((String) Objects.requireNonNull(value.get((String) list.get(Integer.toString(i)))))));
+        }
     }
 }
