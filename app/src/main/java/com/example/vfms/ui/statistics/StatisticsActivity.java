@@ -76,6 +76,7 @@ public class StatisticsActivity extends AppCompatActivity {
         String type = "chart";
         BackgroundWorker backgroundWorker = new BackgroundWorker();
         String output = backgroundWorker.execute(type, id, date).get();
+        if (output == null) return;
         JSONParser jsonParser = new JSONParser();
         JSONObject outputJSON = (JSONObject) jsonParser.parse(output);
         @SuppressWarnings("ConstantConditions") long count = (long) outputJSON.get("count");
