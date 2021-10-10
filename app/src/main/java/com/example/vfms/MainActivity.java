@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<Integer> loadQuotes() {
-        return Arrays.asList(R.string.quote0, R.string.quote1, R.string.quote2, R.string.quote3, R.string.quote4, R.string.quote5, R.string.quote6, R.string.quote7, R.string.quote8, R.string.quote9, R.string.quote10, R.string.quote11, R.string.quote12, R.string.quote13, R.string.quote14, R.string.quote15, R.string.quote16, R.string.quote17);
+        return Arrays.asList(R.string.quote0, R.string.quote1, R.string.quote2);
     }
 
     @Override
