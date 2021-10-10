@@ -26,12 +26,15 @@ public class HomeFragment extends Fragment {
 
         CalendarView calendarView = (CalendarView) root.findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener((calendarView1, i, i1, i2) -> {
-            String date = i+ "/" + (i1 + 1) + "/" + i2;
+            String date = i+ "/" + format(i1 + 1) + "/" + format(i2);
             Intent intent = new Intent(getActivity(), StatisticsActivity.class);
             intent.putExtra(String.valueOf(R.string.date_string), date);
             startActivity(intent);
         });
-
         return root;
+    }
+
+    String format(int i) {
+        return String.valueOf(i).length() == 2 ? String.valueOf(i) : '0' + String.valueOf(i);
     }
 }

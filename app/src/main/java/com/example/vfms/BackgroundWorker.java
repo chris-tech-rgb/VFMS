@@ -17,71 +17,52 @@ import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@SuppressWarnings({"ConstantConditions", "unchecked", "deprecation"})
+@SuppressWarnings({"unchecked", "deprecation"})
 public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
         String type = params[0];
-        if (type.equals("login")) {
-            try {
-                Socket socket = new Socket("47.119.141.11", 10000);
-                OutputStream outputStream = socket.getOutputStream();
-                Writer writer = new OutputStreamWriter(outputStream);
-                String username = params[1];
-                String password = params[2];
-                JSONObject loginJSON = new JSONObject();
-                JSONObject content = new JSONObject();
-                content.put("username", username);
-                content.put("password", password);
-                loginJSON.put("function", "login");
-                loginJSON.put("timestamp", timestamp());
-                loginJSON.put("content", content);
-                writer.write(loginJSON.toString());
-                writer.flush();
-                socket.shutdownOutput();
-                InputStream inputStream= socket.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String rep = bufferedReader.readLine();
-                JSONParser jsonParser = new JSONParser();
-                JSONObject repJSON = (JSONObject) jsonParser.parse(rep);
-                String function = (String) repJSON.get("function");
-                assert function != null;
-                if (function.equals("login-rep")) {
-                    long res = (long) repJSON.get("content");
-                    socket.close();
-                    return Long.toString(res);
-                } else socket.close();
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
-        } else if (type.equals("list")) {
-            try {
-                Socket socket = new Socket("47.119.141.11", 10000);
-                OutputStream outputStream = socket.getOutputStream();
-                Writer writer = new OutputStreamWriter(outputStream);
-                JSONObject listJSON = new JSONObject();
-                listJSON.put("function", "list");
-                listJSON.put("timestamp", timestamp());
-                listJSON.put("content", null);
-                writer.write(listJSON.toString());
-                writer.flush();
-                socket.shutdownOutput();
-                InputStream inputStream= socket.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String rep = bufferedReader.readLine();
-                JSONParser jsonParser = new JSONParser();
-                JSONObject repJSON = (JSONObject) jsonParser.parse(rep);
-                String function = (String) repJSON.get("function");
-                assert function != null;
-                if (function.equals("list-rep")) {
-                    String res = (String) repJSON.get("content");
-                    socket.close();
-                    return res;
-                } else socket.close();
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
+        switch (type) {
+            case "login":
+                try {
+                    JSONObject json = new JSONObject();
+                    JSONObject content = new JSONObject();
+                    content.put("username", params[1]);
+                    content.put("password", params[2]);
+                    json.put("function", "login");
+                    json.put("timestamp", timestamp());
+                    json.put("content", content);
+                    return message(json);
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "list":
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("function", "list");
+                    json.put("timestamp", timestamp());
+                    json.put("content", null);
+                    return message(json);
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "chart":
+                try {
+                    JSONObject json = new JSONObject();
+                    JSONObject content = new JSONObject();
+                    content.put("id", params[1]);
+                    content.put("date", params[2]);
+                    json.put("function", "chart");
+                    json.put("timestamp", timestamp());
+                    json.put("content", content);
+                    return message(json);
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
         return null;
     }
@@ -103,6 +84,30 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
+    }
+
+    static String message(JSONObject json) throws IOException, ParseException {
+        Socket socket = new Socket("47.119.141.11", 10000);
+        OutputStream outputStream = socket.getOutputStream();
+        Writer writer = new OutputStreamWriter(outputStream);
+        writer.write(json.toString());
+        writer.flush();
+        socket.shutdownOutput();
+        InputStream inputStream = socket.getInputStream();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String rep = bufferedReader.readLine();
+        JSONParser jsonParser = new JSONParser();
+        JSONObject repJSON = (JSONObject) jsonParser.parse(rep);
+        String function = (String) repJSON.get("function");
+        assert function != null;
+        if (function.equals("rep")) {
+            String res = (String) repJSON.get("content");
+            socket.close();
+            return res;
+        } else {
+            socket.close();
+            return null;
+        }
     }
 }
 
