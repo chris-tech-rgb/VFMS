@@ -1,7 +1,11 @@
 package com.example.vfms.data;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.example.vfms.BackgroundWorker;
 import com.example.vfms.data.model.LoggedInUser;
+import com.example.vfms.data.rsa.RsaTools;
 
 import java.io.IOException;
 
@@ -11,7 +15,7 @@ import java.io.IOException;
 public class LoginDataSource {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public Result<LoggedInUser> login(String username, String password) {
+    public Result<LoggedInUser> login(String username, String password, Context context) {
 
         try {
             // TODO: handle loggedInUser authentication
@@ -19,6 +23,18 @@ public class LoginDataSource {
             BackgroundWorker backgroundWorker = new BackgroundWorker();
             String output = backgroundWorker.execute(type, username, password).get();
             if (output.equals("0") || output.equals("1")) {
+                if(output.equals("0"))
+                {
+                    try {
+                        RsaTools.RsaInit((context));
+                        Log.d("abc", RsaTools.getKeyAsString(RsaTools.GetMyKeyPair(context).getPublic()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    BackgroundWorker bw = new BackgroundWorker();
+                    Log.d("beforeMessage", "ok");
+                    String ot = bw.execute("register",username,RsaTools.getKeyAsString(RsaTools.GetMyKeyPair(context).getPublic())).get();
+                }
                 LoggedInUser user = new LoggedInUser(username, emailStrip(username));
                 return new Result.Success<>(user);
             } else return new Result.Fail(Integer.parseInt(output));

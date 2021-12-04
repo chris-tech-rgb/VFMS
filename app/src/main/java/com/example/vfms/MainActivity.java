@@ -1,16 +1,20 @@
 package com.example.vfms;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -21,11 +25,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.vfms.tools.LocationUtils;
 import com.example.vfms.ui.login.LoginActivity;
 import com.example.vfms.ui.settings.SettingsActivity;
+import com.github.dfqin.grantor.PermissionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.github.dfqin.grantor.PermissionsUtil;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,12 +42,16 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private double _lat=0.0d;
+    private double _lng=0.0d;
     private SharedPreferences sharedPreferences;
     public boolean isOnline = false;
-
+    private static final String[] mPermissions = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION
+            ,Manifest.permission.READ_PHONE_STATE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        askPermissions();
         sharedPreferences = getSharedPreferences(String.valueOf(R.string.preference_string), Context.MODE_PRIVATE);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -132,4 +144,78 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
+    public void GetCoin(View view)
+    {
+        _lat=0.0d;
+        _lng=0.0d;
+        SharedPreferences sharedPreferences1 = getSharedPreferences( String.valueOf(R.string.preference_string), Context.MODE_PRIVATE);
+        String username = sharedPreferences1.getString(String.valueOf(R.string.current_username),"null");
+        SharedPreferences sharedPreferences2 = getSharedPreferences("keypair",Context.MODE_PRIVATE);
+        String pubkey = sharedPreferences2.getString("publicKey","null");
+        String location = "暂无";
+        requestPermissions();
+        if(_lat==0.0d||_lng==0.0d)
+        {
+            Log.d("LocationError", "Error!!!!!");
+        }
+        Log.d("up", "username: "+username +"pubkey: "+pubkey+"loclat:"+_lat+"loclng:"+_lng);
+        BackgroundWorker backgroundWorker = new BackgroundWorker();
+        backgroundWorker.execute("getcoin",username, pubkey,String.valueOf(_lat),String.valueOf(_lng));
+        //String output = backgroundWorker.execute(username, pubkey,location).get();
+    }
+    private void askPermissions(){
+        if (PermissionsUtil.hasPermission(this,mPermissions)) {
+            //有访问权限
+        } else {
+            PermissionsUtil.requestPermission(this, new PermissionListener() {
+                @Override
+                public void permissionGranted(@NonNull String[] permissions) {
+                    //用户授予了访问权限
+                }
+                @Override
+                public void permissionDenied(@NonNull String[] permissions) {
+                    //用户拒绝了访问的申请
+                }
+            }, mPermissions);
+        }
+    }
+    private void requestPermissions() {
+        if (PermissionsUtil.hasPermission(this,mPermissions)) {
+            //有访问权限
+            initLocation();
+        } else {
+            PermissionsUtil.requestPermission(this, new PermissionListener() {
+                @Override
+                public void permissionGranted(@NonNull String[] permissions) {
+                    //用户授予了访问权限
+                    initLocation();
+                }
+                @Override
+                public void permissionDenied(@NonNull String[] permissions) {
+                    //用户拒绝了访问的申请
+                }
+            }, mPermissions);
+        }
+    }
+    private void initLocation(){
+        LocationUtils.getInstance(this).setAddressCallback(new LocationUtils.AddressCallback() {
+            @Override
+            public void onGetAddress(Address address) {
+                String countryName = address.getCountryName();//国家
+                String adminArea = address.getAdminArea();//省
+                String locality = address.getLocality();//市
+                String subLocality = address.getSubLocality();//区
+                String featureName = address.getFeatureName();//街道
+                Log.d("定位地址",countryName+"//"+adminArea+"//"+locality+"//"+subLocality+"//"+featureName);
+            }
+
+            @Override
+            public void onGetLocation(double lat, double lng) {
+                _lat=lat;
+                _lng=lng;
+                Log.d("定位经纬度",lat+"//"+lng);
+            }
+        });
+    }
+
 }

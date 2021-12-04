@@ -1,6 +1,7 @@
 package com.example.vfms;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -63,6 +64,41 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     e.printStackTrace();
                 }
                 break;
+            case "register":
+                try {
+                    JSONObject json = new JSONObject();
+                    JSONObject content = new JSONObject();
+                    content.put("username", params[1]);
+                    content.put("pubkey",params[2]);
+                    json.put("function", "register");
+                    json.put("timestamp", timestamp());
+                    json.put("content", content);
+
+                    return message(json);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "getcoin":
+                try {
+                    JSONObject json = new JSONObject();
+                    JSONObject content = new JSONObject();
+                    content.put("username", params[1]);
+                    content.put("pubkey",params[2]);
+                    content.put("loclat",Double.valueOf(params[3]));
+                    content.put("loclng",Double.valueOf(params[4]));
+                    json.put("function", "getcoin");
+                    json.put("timestamp", timestamp());
+                    json.put("content", content);
+                    return message(json);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
         }
         return null;
     }
@@ -96,12 +132,14 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         InputStream inputStream = socket.getInputStream();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String rep = bufferedReader.readLine();
+        Log.d("reg", "message: "+rep);
         JSONParser jsonParser = new JSONParser();
         JSONObject repJSON = (JSONObject) jsonParser.parse(rep);
         String function = (String) repJSON.get("function");
         assert function != null;
         if (function.equals("rep")) {
             String res = (String) repJSON.get("content");
+            Log.d("tag", res);
             socket.close();
             return res;
         } else {
