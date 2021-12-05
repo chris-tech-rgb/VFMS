@@ -87,15 +87,14 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     JSONObject content = new JSONObject();
                     content.put("username", params[1]);
                     content.put("pubkey",params[2]);
-                    content.put("loclat",Double.valueOf(params[3]));
-                    content.put("loclng",Double.valueOf(params[4]));
+                    content.put("loclat",params[3]);
+                    content.put("loclng",params[4]);
+                    //Log.d("locDebug", "loclat: "+params[3]+"loclng"+params[4]);
                     json.put("function", "getcoin");
                     json.put("timestamp", timestamp());
                     json.put("content", content);
                     return message(json);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
+                } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
 
@@ -139,7 +138,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         assert function != null;
         if (function.equals("rep")) {
             String res = (String) repJSON.get("content");
-            Log.d("tag", res);
+            //Log.d("tag", res);
             socket.close();
             return res;
         } else {

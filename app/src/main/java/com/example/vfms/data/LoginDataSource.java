@@ -27,12 +27,12 @@ public class LoginDataSource {
                 {
                     try {
                         RsaTools.RsaInit((context));
-                        Log.d("abc", RsaTools.getKeyAsString(RsaTools.GetMyKeyPair(context).getPublic()));
+                        //Log.d("abc", RsaTools.getKeyAsString(RsaTools.GetMyKeyPair(context).getPublic()));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     BackgroundWorker bw = new BackgroundWorker();
-                    Log.d("beforeMessage", "ok");
+                    //Log.d("beforeMessage", "ok");
                     String ot = bw.execute("register",username,RsaTools.getKeyAsString(RsaTools.GetMyKeyPair(context).getPublic())).get();
                 }
                 LoggedInUser user = new LoggedInUser(username, emailStrip(username));
