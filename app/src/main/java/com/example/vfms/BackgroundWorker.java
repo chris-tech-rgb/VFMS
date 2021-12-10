@@ -97,9 +97,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             case "check_coins":
                 try {
                     JSONObject json = new JSONObject();
+                    JSONObject content = new JSONObject();
+                    content.put("username", params[1]);
                     json.put("function", "check_coins");
                     json.put("timestamp", timestamp());
-                    json.put("content", params[1]);
+                    json.put("content", content);
                     return message(json);
                 } catch (IOException | ParseException e) {
                     e.printStackTrace();
