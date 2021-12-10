@@ -1,11 +1,11 @@
 package com.example.vfms;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Address;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -29,15 +29,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.vfms.tools.LocationUtils;
+import com.example.vfms.ui.coins.CoinsActivity;
 import com.example.vfms.ui.login.LoginActivity;
 import com.example.vfms.ui.settings.SettingsActivity;
 import com.github.dfqin.grantor.PermissionListener;
+import com.github.dfqin.grantor.PermissionsUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.github.dfqin.grantor.PermissionsUtil;
-
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,9 +44,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String EXTRA_MESSAGE = "com.example.vfms.MESSAGE";
     private AppBarConfiguration mAppBarConfiguration;
-    private double _lat = 0.0d;
-    private double _lng = 0.0d;
     private SharedPreferences sharedPreferences;
     public boolean isOnline = false;
     private static final String[] mPermissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
@@ -150,14 +148,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @SuppressLint("SetTextI18n")
     public void GetCoin(View view) {
-        _lat=0.0d;
-        _lng=0.0d;
+        double _lat;
+        double _lng;
         SharedPreferences sharedPreferences1 = getSharedPreferences(String.valueOf(R.string.preference_string), Context.MODE_PRIVATE);
         String username = sharedPreferences1.getString(String.valueOf(R.string.current_username), "null");
         SharedPreferences sharedPreferences2 = getSharedPreferences("keypair", Context.MODE_PRIVATE);
         String pubkey = sharedPreferences2.getString("publicKey", "null");
-        String location1 = "暂无";
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -170,73 +168,38 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        _lat=location.getAltitude();
-        _lng=location.getLongitude();
+        _lat = location.getAltitude();
+        _lng = location.getLongitude();
         //requestPermissions();
-        if(_lat==0.0d||_lng==0.0d)
-        {
+        if (_lat == 0.0d || _lng == 0.0d) {
             Log.d("LocationError", "Error!!!!!");
         }
-        Log.d("up", "username: "+username +"pubkey: "+pubkey+"loclat:"+String.valueOf(_lat)+"loclng:"+String.valueOf(_lng));
-        TextView latText = (TextView) findViewById(R.id.latText);
+        Log.d("up", "username: " + username + "pubkey: " + pubkey + "loclat:" + _lat + "loclng:" + _lng);
+        TextView latText = findViewById(R.id.latText);
         latText.setText("Altitude: " + _lat + "\nLongitude: " + _lng);
         BackgroundWorker backgroundWorker = new BackgroundWorker();
-        backgroundWorker.execute("getcoin",username, pubkey,String.valueOf(_lat),String.valueOf(_lng));
-        //String output = backgroundWorker.execute(username, pubkey,location).get();
+        backgroundWorker.execute("getcoin", username, pubkey, String.valueOf(_lat), String.valueOf(_lng));
     }
-    private void askPermissions(){
-        if (PermissionsUtil.hasPermission(this,mPermissions)) {
-            //有访问权限
-        } else {
-            PermissionsUtil.requestPermission(this, new PermissionListener() {
-                @Override
-                public void permissionGranted(@NonNull String[] permissions) {
-                    //用户授予了访问权限
-                }
-                @Override
-                public void permissionDenied(@NonNull String[] permissions) {
-                    //用户拒绝了访问的申请
-                }
-            }, mPermissions);
-        }
-    }
-    private void requestPermissions() {
-        if (PermissionsUtil.hasPermission(this,mPermissions)) {
-            //有访问权限
-            initLocation();
-        } else {
-            PermissionsUtil.requestPermission(this, new PermissionListener() {
-                @Override
-                public void permissionGranted(@NonNull String[] permissions) {
-                    //用户授予了访问权限
-                    initLocation();
-                }
-                @Override
-                public void permissionDenied(@NonNull String[] permissions) {
-                    //用户拒绝了访问的申请
-                }
-            }, mPermissions);
-        }
-    }
-    private void initLocation(){
-        LocationUtils.getInstance(this).setAddressCallback(new LocationUtils.AddressCallback() {
-            @Override
-            public void onGetAddress(Address address) {
-                String countryName = address.getCountryName();//国家
-                String adminArea = address.getAdminArea();//省
-                String locality = address.getLocality();//市
-                String subLocality = address.getSubLocality();//区
-                String featureName = address.getFeatureName();//街道
-                Log.d("定位地址",countryName+"//"+adminArea+"//"+locality+"//"+subLocality+"//"+featureName);
-            }
 
-            @Override
-            public void onGetLocation(double lat, double lng) {
-                _lat=lat;
-                _lng=lng;
-                Log.d("定位经纬度",lat+"//"+lng);
-            }
-        });
+    public void CheckCoins(View view) {
+        String currentUser = sharedPreferences.getString(String.valueOf(R.string.current_username), null);
+        Intent intent = new Intent(this, CoinsActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, currentUser);
+        startActivity(intent);
+    }
+
+    private void askPermissions() {
+        if (!PermissionsUtil.hasPermission(this, mPermissions)) {
+            PermissionsUtil.requestPermission(this, new PermissionListener() {
+                @Override
+                public void permissionGranted(@NonNull String[] permissions) {
+                }
+
+                @Override
+                public void permissionDenied(@NonNull String[] permissions) {
+                }
+            }, mPermissions);
+        }
     }
 
 }

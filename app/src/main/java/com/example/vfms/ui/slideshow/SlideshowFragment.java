@@ -1,9 +1,6 @@
 package com.example.vfms.ui.slideshow;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.vfms.BackgroundWorker;
 import com.example.vfms.R;
-import com.example.vfms.data.rsa.RsaTools;
 
 public class SlideshowFragment extends Fragment {
 

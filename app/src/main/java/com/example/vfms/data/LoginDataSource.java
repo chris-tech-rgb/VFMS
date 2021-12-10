@@ -1,7 +1,6 @@
 package com.example.vfms.data;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.vfms.BackgroundWorker;
 import com.example.vfms.data.model.LoggedInUser;
@@ -23,8 +22,7 @@ public class LoginDataSource {
             BackgroundWorker backgroundWorker = new BackgroundWorker();
             String output = backgroundWorker.execute(type, username, password).get();
             if (output.equals("0") || output.equals("1")) {
-                if(output.equals("0"))
-                {
+                if (output.equals("0")) {
                     try {
                         RsaTools.RsaInit((context));
                         //Log.d("abc", RsaTools.getKeyAsString(RsaTools.GetMyKeyPair(context).getPublic()));
@@ -33,7 +31,7 @@ public class LoginDataSource {
                     }
                     BackgroundWorker bw = new BackgroundWorker();
                     //Log.d("beforeMessage", "ok");
-                    String ot = bw.execute("register",username,RsaTools.getKeyAsString(RsaTools.GetMyKeyPair(context).getPublic())).get();
+                    bw.execute("register", username, RsaTools.getKeyAsString(RsaTools.GetMyKeyPair(context).getPublic())).get();
                 }
                 LoggedInUser user = new LoggedInUser(username, emailStrip(username));
                 return new Result.Success<>(user);
@@ -41,10 +39,6 @@ public class LoginDataSource {
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));
         }
-    }
-
-    public void logout() {
-        // TODO: revoke authentication
     }
 
     private String emailStrip(String email) {

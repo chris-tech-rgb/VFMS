@@ -7,7 +7,7 @@ public class LoggedInUser {
 
     @SuppressWarnings("FieldMayBeFinal")
     private String userId;
-    private String displayName;
+    private final String displayName;
 
     public LoggedInUser(String userId, String displayName) {
         this.userId = userId;

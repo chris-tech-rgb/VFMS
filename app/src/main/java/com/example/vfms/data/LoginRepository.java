@@ -36,11 +36,6 @@ public class LoginRepository {
         return user != null;
     }
 
-    public void logout() {
-        user = null;
-        dataSource.logout();
-    }
-
     private void setLoggedInUser(LoggedInUser user) {
         this.user = user;
         // If user credentials will be cached in local storage, it is recommended it be encrypted
@@ -49,7 +44,7 @@ public class LoginRepository {
 
     public Result<LoggedInUser> login(String username, String password, Context context) {
         // handle login
-        Result<LoggedInUser> result = dataSource.login(username, password,context);
+        Result<LoggedInUser> result = dataSource.login(username, password, context);
         if (result instanceof Result.Success) {
             setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
         }

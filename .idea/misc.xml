@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/activity_coins.xml" value="0.21200607902735563" />
         <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/activity_login.xml" value="0.3458333333333333" />
+        <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/activity_main.xml" value="0.21200607902735563" />
         <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/activity_settings.xml" value="0.3375" />
         <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/activity_statistics.xml" value="0.33" />
         <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/app_bar_main.xml" value="0.3375" />
@@ -11,19 +13,11 @@
         <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/fragment_gallery.xml" value="0.34270833333333334" />
         <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/fragment_home.xml" value="0.3390625" />
         <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/fragment_slideshow.xml" value="0.3302083333333333" />
+        <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/list_coins.xml" value="0.20516717325227962" />
         <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/list_items.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/layout/nav_header_main.xml" value="0.3375" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/activity_login.xml" value="0.264" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/activity_main.xml" value="0.2046875" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/activity_settings.xml" value="0.264" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/activity_statistics.xml" value="0.264" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/app_bar_main.xml" value="0.23385416666666667" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/content_main.xml" value="0.2046875" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/fragment_gallery.xml" value="0.536" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/fragment_home.xml" value="0.23385416666666667" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/fragment_slideshow.xml" value="0.264" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/list_items.xml" value="0.2046875" />
-        <entry key="..\:/VFMS/app/src/main/res/layout/nav_header_main.xml" value="0.23385416666666667" />
+        <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/menu/activity_main_drawer.xml" value="0.42923076923076925" />
+        <entry key="..\:/Users/HP/StudioProjects/VFMS/app/src/main/res/menu/main.xml" value="0.30833333333333335" />
       </map>
     </option>
   </component>

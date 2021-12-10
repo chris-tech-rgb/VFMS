@@ -69,15 +69,13 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     JSONObject json = new JSONObject();
                     JSONObject content = new JSONObject();
                     content.put("username", params[1]);
-                    content.put("pubkey",params[2]);
+                    content.put("pubkey", params[2]);
                     json.put("function", "register");
                     json.put("timestamp", timestamp());
                     json.put("content", content);
 
                     return message(json);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
+                } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
                 break;
@@ -86,10 +84,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     JSONObject json = new JSONObject();
                     JSONObject content = new JSONObject();
                     content.put("username", params[1]);
-                    content.put("pubkey",params[2]);
-                    content.put("loclat",params[3]);
-                    content.put("loclng",params[4]);
-                    //Log.d("locDebug", "loclat: "+params[3]+"loclng"+params[4]);
+                    content.put("pubkey", params[2]);
+                    content.put("loclat", params[3]);
+                    content.put("loclng", params[4]);
                     json.put("function", "getcoin");
                     json.put("timestamp", timestamp());
                     json.put("content", content);
@@ -97,7 +94,17 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
-
+            case "check_coins":
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("function", "check_coins");
+                    json.put("timestamp", timestamp());
+                    json.put("content", params[1]);
+                    return message(json);
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
         return null;
     }
@@ -131,7 +138,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         InputStream inputStream = socket.getInputStream();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String rep = bufferedReader.readLine();
-        Log.d("reg", "message: "+rep);
+        Log.d("reg", "message: " + rep);
         JSONParser jsonParser = new JSONParser();
         JSONObject repJSON = (JSONObject) jsonParser.parse(rep);
         String function = (String) repJSON.get("function");

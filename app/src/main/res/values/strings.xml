@@ -46,4 +46,7 @@
     <string name="chart_label">statistics</string>
     <string name="peak_label">peak</string>
     <string name="constant_label">constant</string>
+    <string name="chabi">查币</string>
+    <string name="coin_genr">获取</string>
+    <string name="coin_text">代币获取</string>
 </resources>

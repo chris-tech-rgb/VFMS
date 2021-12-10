@@ -72,7 +72,7 @@ public class GalleryFragment extends Fragment {
         JSONObject name_list = (JSONObject) outputJSON.get("name_list");
         JSONObject flow_list = (JSONObject) outputJSON.get("flow_list");
         for (int i = 0; i < row; i++) {
-            placeArrayList.add(new Place((String) name_list.get(Integer.toString(i)), "人气 " + (long) flow_list.get((String) name_list.get(Integer.toString(i)))));
+            placeArrayList.add(new Place((String) name_list.get(Integer.toString(i)), "人气 " + (long) flow_list.get(name_list.get(Integer.toString(i)))));
         }
         return true;
     }

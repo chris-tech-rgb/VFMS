@@ -1,7 +1,6 @@
 package com.example.vfms.ui.gallery;
 
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,16 +14,16 @@ import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
-    private ArrayList<Place> placeArrayList;
+    private final ArrayList<Place> placeArrayList;
 
     public RecyclerAdapter(ArrayList<Place> placeArrayList) {
         this.placeArrayList = placeArrayList;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView place;
-        private TextView popularity;
+        private final TextView place;
+        private final TextView popularity;
 
         public MyViewHolder(final View view) {
             super(view);

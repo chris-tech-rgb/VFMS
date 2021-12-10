@@ -22,7 +22,4 @@ public class Place {
         return popularity;
     }
 
-    public void setPopularity(String popularity) {
-        this.popularity = popularity;
-    }
 }

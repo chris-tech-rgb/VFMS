@@ -24,9 +24,9 @@ public class HomeFragment extends Fragment {
         final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        CalendarView calendarView = (CalendarView) root.findViewById(R.id.calendarView);
+        CalendarView calendarView = root.findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener((calendarView1, i, i1, i2) -> {
-            String date = i+ "/" + format(i1 + 1) + "/" + format(i2);
+            String date = i + "/" + format(i1 + 1) + "/" + format(i2);
             Intent intent = new Intent(getActivity(), StatisticsActivity.class);
             intent.putExtra(String.valueOf(R.string.date_string), date);
             startActivity(intent);

@@ -37,7 +37,7 @@ public class StatisticsActivity extends AppCompatActivity {
         String date = intent.getStringExtra(String.valueOf(R.string.date_string));
         dateText.setText(date);
 
-        lineChart = (LineChart) findViewById(R.id.line);
+        lineChart = findViewById(R.id.line);
 
         ArrayList<Entry> peak = new ArrayList<>();
         ArrayList<Entry> constant = new ArrayList<>();
@@ -86,7 +86,7 @@ public class StatisticsActivity extends AppCompatActivity {
             assert list != null;
             assert value != null;
             //noinspection SingleStatementInBlock
-            peak.add(new Entry(Float.parseFloat((String) Objects.requireNonNull(list.get(Integer.toString(i)))), Float.parseFloat((String) Objects.requireNonNull(value.get((String) list.get(Integer.toString(i)))))));
+            peak.add(new Entry(Float.parseFloat((String) Objects.requireNonNull(list.get(Integer.toString(i)))), Float.parseFloat((String) Objects.requireNonNull(value.get(list.get(Integer.toString(i)))))));
         }
     }
 }
