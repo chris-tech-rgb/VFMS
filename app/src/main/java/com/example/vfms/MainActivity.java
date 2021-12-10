@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        _lat = location.getAltitude();
+        _lat = location.getLatitude();
         _lng = location.getLongitude();
         //requestPermissions();
         if (_lat == 0.0d || _lng == 0.0d) {
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d("up", "username: " + username + "pubkey: " + pubkey + "loclat:" + _lat + "loclng:" + _lng);
         TextView latText = findViewById(R.id.latText);
-        latText.setText("Altitude: " + _lat + "\nLongitude: " + _lng);
+        latText.setText("Latitude: " + _lat + "\nLongitude: " + _lng);
         BackgroundWorker backgroundWorker = new BackgroundWorker();
         backgroundWorker.execute("getcoin", username, pubkey, String.valueOf(_lat), String.valueOf(_lng));
     }

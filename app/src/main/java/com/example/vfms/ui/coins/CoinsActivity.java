@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.vfms.BackgroundWorker;
 import com.example.vfms.MainActivity;
 import com.example.vfms.R;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -40,8 +39,6 @@ public class CoinsActivity extends AppCompatActivity {
         coinArrayList = new ArrayList<>();
         try {
             if (!setCoinInfo()) {
-                Snackbar.make(findViewById(R.id.fab), R.string.server_failure, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         } catch (ExecutionException | InterruptedException | ParseException e) {
             e.printStackTrace();
